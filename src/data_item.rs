@@ -118,11 +118,14 @@ impl DataItemBuilder {
         self
     }
 
-    pub fn build(self) -> Result<DataItem> {
+    pub fn build(self, validate: bool) -> Result<DataItem> {
         if let (Some(open), Some(high), Some(low), Some(close), Some(volume)) =
             (self.open, self.high, self.low, self.close, self.volume)
         {
-            // validate
+            // optionally bypass validation
+            if validate == false {
+                return Ok(item);
+            }
             if low <= open
                 && low <= close
                 && low <= high
