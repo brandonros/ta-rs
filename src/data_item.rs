@@ -122,7 +122,14 @@ impl DataItemBuilder {
         if let (Some(open), Some(high), Some(low), Some(close), Some(volume)) =
             (self.open, self.high, self.low, self.close, self.volume)
         {
-            // optionally bypass validation
+            let item = DataItem {
+                open,
+                high,
+                low,
+                close,
+                volume,
+            };
+            // optionally bypass validation for weird pre-market candles where open == low == high == close?
             if validate == false {
                 return Ok(item);
             }
@@ -133,13 +140,6 @@ impl DataItemBuilder {
                 && high >= close
                 && volume >= 0.0
             {
-                let item = DataItem {
-                    open,
-                    high,
-                    low,
-                    close,
-                    volume,
-                };
                 Ok(item)
             } else {
                 Err(TaError::DataItemInvalid)
