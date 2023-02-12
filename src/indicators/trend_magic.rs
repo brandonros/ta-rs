@@ -76,8 +76,8 @@ impl<T: High + Low + Close> Next<&T> for TrendMagic {
     };
     // crosses
     let cross1 = cross(input.close(), current_trend_magic, self.previous_close, self.previous_trend_magic);
-    let cross2 = crossover(input.low(), current_trend_magic, self.previous_low, self.previous_trend_magic);
-    let cross3 = crossunder(input.high(), current_trend_magic, self.previous_high, self.previous_trend_magic);
+    let buy_signal = crossover(input.low(), current_trend_magic, self.previous_low, self.previous_trend_magic);
+    let sell_signal = crossunder(input.high(), current_trend_magic, self.previous_high, self.previous_trend_magic);
     // update state
     self.previous_trend_magic = current_trend_magic;
     self.previous_close = input.close();
@@ -85,8 +85,8 @@ impl<T: High + Low + Close> Next<&T> for TrendMagic {
     self.previous_low = input.low();
     return (
       cross1,
-      cross2,
-      cross3
+      buy_signal,
+      sell_signal
     )
   }
 }
