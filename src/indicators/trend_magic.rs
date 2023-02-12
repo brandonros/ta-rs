@@ -25,7 +25,7 @@ impl TrendMagic {
 }
 
 impl<T: High + Low + Close> Next<&T> for TrendMagic {
-  type Output = f64;
+  type Output = (f64, f64, f64);
 
   fn next(&mut self, input: &T) -> Self::Output {
     // tr and then sma the tr to act like an alternative to atr
@@ -39,18 +39,18 @@ impl<T: High + Low + Close> Next<&T> for TrendMagic {
     let down = input.high() + atr * self.atr_multiplier;
     if cci >= 0.0 {
       if up < self.previous {
-        return self.previous;
+        
       } else {
         self.previous = up;
-        return up;
       }
     } else {
       if down > self.previous {
-        return self.previous;
+        
+      } else {
+        self.previous = down;
       }
-      self.previous = down;
-      return down;
     }
+    return (up, down, self.previous);
   }
 }
 
