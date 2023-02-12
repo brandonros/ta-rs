@@ -74,3 +74,6 @@ pub use self::volume_weighted_average_price::VolumeWeightedAveragePriceBands;
 
 mod supertrend;
 pub use self::supertrend::Supertrend;
+
+mod trend_magic;
+pub use self::trend_magic::TrendMagic;
